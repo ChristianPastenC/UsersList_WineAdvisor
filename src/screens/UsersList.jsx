@@ -8,7 +8,7 @@ import useModalControl from '../hooks/useModalControl'
 import * as mock from '../mocks/list-results.json'
 
 const UsersList = () => {
-	const { showModal, setShowModal, } = useModalControl();
+	const { showModal, setShowModal, usrData, setUsrData } = useModalControl();
 
 	return (
 		<View style={GlobalStyle.style.screenContainer}>
@@ -20,10 +20,15 @@ const UsersList = () => {
 			</View>
 
 			<View style={GlobalStyle.style.body}>
-				<Users users={mock.data} />
+				<Users
+					users={mock.data}
+					trigger={() => setShowModal(true)}
+					setSelected={setUsrData}
+				/>
 				<UserDetails
 					visible={showModal}
-					closer={setShowModal}
+					closer={() => setShowModal(false)}
+					user={usrData}
 				/>
 			</View>
 

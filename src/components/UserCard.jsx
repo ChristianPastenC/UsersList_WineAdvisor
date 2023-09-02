@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Mixins, Colors, GlobalStyle, } from '../styles'
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, setter }) => {
     return (
         <View style={styles.container}>
             <Image
@@ -13,7 +13,7 @@ const UserCard = ({ user }) => {
                 <Text style={styles.txt}>
                     {user.first_name + " " + user.last_name}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setter()}>
                     <Text style={styles.btnText}>
                         Ver Detalles
                     </Text>
