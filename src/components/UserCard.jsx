@@ -1,24 +1,42 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { Mixins, Colors, GlobalStyle, } from '../styles'
 
-const UserCard = ({ user, setter }) => {
+import useModalControl from '../hooks/useModalControl'
+import useUserInfo from '../hooks/useUserInfo'
+import UserDetails from './UserDetails'
+// import * as aux from '../mocks/single-result.json'
+
+const UserCard = ({ user }) => {
+    const { showModal, setShowModal } = useModalControl()
+    const { userData, loading, getUserData } = useUserInfo(user.id)
+
+    const handleGetData = useCallback((id) => {
+        getUserData({ id })
+        setShowModal(true)
+    }, []);
+
     return (
         <View style={styles.container}>
             <Image
                 style={styles.image}
-                source={{ uri: user.avatar }}
+                source={{ uri: user.img }}
             />
             <View style={styles.secondContainer}>
                 <Text style={styles.txt}>
-                    {user.first_name + " " + user.last_name}
+                    {user.name}
                 </Text>
-                <TouchableOpacity onPress={() => setter()}>
+                <TouchableOpacity onPress={() => handleGetData(user.id)}>
                     <Text style={styles.btnText}>
                         Ver Detalles
                     </Text>
                 </TouchableOpacity>
             </View>
+            <UserDetails
+                visible={showModal}
+                closer={() => setShowModal(false)}
+                user={userData}
+            />
         </View>
     )
 }

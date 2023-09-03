@@ -1,14 +1,15 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, { useEffect } from 'react'
+import { View, Text, ActivityIndicator } from 'react-native'
 import Users from '../components/Users'
-import UserDetails from '../components/UserDetails'
 import { GlobalStyle } from '../styles'
 
-import useModalControl from '../hooks/useModalControl'
-import * as mock from '../mocks/list-results.json'
+import useUsers from '../hooks/useUsers'
+// import * as mock from '../mocks/list-results.json'
 
 const UsersList = () => {
-	const { showModal, setShowModal, usrData, setUsrData } = useModalControl();
+	const { users, getUsers, loading } = useUsers()
+
+	useEffect(() => { getUsers() }, [])
 
 	return (
 		<View style={GlobalStyle.style.screenContainer}>
@@ -20,16 +21,11 @@ const UsersList = () => {
 			</View>
 
 			<View style={GlobalStyle.style.body}>
-				<Users
-					users={mock.data}
-					trigger={() => setShowModal(true)}
-					setSelected={setUsrData}
-				/>
-				<UserDetails
-					visible={showModal}
-					closer={() => setShowModal(false)}
-					user={usrData}
-				/>
+				{
+					loading
+						? (<ActivityIndicator />)
+						: (<Users users={users} />)
+				}
 			</View>
 
 		</View>

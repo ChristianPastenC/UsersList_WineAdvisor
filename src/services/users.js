@@ -14,8 +14,19 @@ const getUsersList = async () => {
     } catch (err) { throw new Error(`Error geting users list`) }
 }
 
-const getUserInfo = async (id) => {
+const getUserInfo = async ({ id }) => {
     try {
+        const response = await fetch(`https://reqres.in/api/users/${id}`);
+        const json = await response.json();
+
+        const usrData = json.data;
+        
+        return ({
+            id: usrData.id,
+            name: `${usrData.first_name} ${usrData.last_name}`,
+            img: usrData.avatar,
+            email: usrData.email,
+        }) ?? {};
 
     } catch (err) { throw new Error(`Error getting information from user: ${id}`) }
 }

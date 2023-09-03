@@ -16,9 +16,9 @@ const UserDetails = ({ visible = true, closer = () => { }, user = {} }) => {
                     <MaterialIcons name='arrow-back-ios' size={Mixins.scaleSize(32)} color={Colors.WHITE} />
                 </TouchableOpacity>
                 <View style={style.profile}>
-                    <Image style={style.picture} source={{ uri: user.avatar }} />
+                    <Image style={style.picture} source={{ uri: user.img }} />
                     <Text style={style.name}>
-                        {user.first_name + ' ' + user.last_name}
+                        {user.name}
                     </Text>
                     <View style={style.mailContainer}>
                         <MaterialIcons name="mail-outline" size={24} color="black" />
