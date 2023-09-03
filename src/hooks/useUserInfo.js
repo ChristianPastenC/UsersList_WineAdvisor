@@ -20,7 +20,7 @@ const useUserInfo = ({ id }) => {
         } finally { setLoading(false) }
     }, [])
 
-    return { userData, loading, getUserData }
+    return { userData, loading, getUserData, setUserData }
 }
 
 export default useUserInfo;

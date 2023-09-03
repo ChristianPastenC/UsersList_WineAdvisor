@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal, View, TouchableOpacity, Text, StyleSheet, Image, Linking } from 'react-native'
+import { Modal, View, TouchableOpacity, Text, StyleSheet, Image } from 'react-native'
+import DefaultIcon from './DefaultIcon'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Mixins, Colors, GlobalStyle } from '../styles'
 
@@ -16,12 +17,16 @@ const UserDetails = ({ visible = true, closer = () => { }, user = {} }) => {
                     <MaterialIcons name='arrow-back-ios' size={Mixins.scaleSize(32)} color={Colors.WHITE} />
                 </TouchableOpacity>
                 <View style={style.profile}>
-                    <Image style={style.picture} source={{ uri: user.img }} />
+                    {
+                        user.img
+                            ? (<Image style={style.picture} source={{ uri: user.img }} />)
+                            : (<DefaultIcon otherStyle={style.picture} />)
+                    }
                     <Text style={style.name}>
                         {user.name}
                     </Text>
                     <View style={style.mailContainer}>
-                        <MaterialIcons name="mail-outline" size={24} color="black" />
+                        <MaterialIcons name='mail-outline' size={24} color='black' />
                         <Text style={style.email}>
                             {user.email}
                         </Text>

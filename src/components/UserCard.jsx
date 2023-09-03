@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react'
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import React, { useCallback } from 'react'
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Mixins, Colors, GlobalStyle, } from '../styles'
-
+import DefaultIcon from './DefaultIcon'
 import useModalControl from '../hooks/useModalControl'
 import useUserInfo from '../hooks/useUserInfo'
 import UserDetails from './UserDetails'
@@ -9,34 +9,44 @@ import UserDetails from './UserDetails'
 
 const UserCard = ({ user }) => {
     const { showModal, setShowModal } = useModalControl()
-    const { userData, loading, getUserData } = useUserInfo(user.id)
+    const { userData, loading, getUserData, setUserData } = useUserInfo(user.id)
 
-    const handleGetData = useCallback((id) => {
-        getUserData({ id })
+    const handleGetData = useCallback((id) => getUserData({ id }), [getUserData]);
+
+    const handleOpenModal = (id) => {
+        if (id <= 12) handleGetData(id)
+        else setUserData(user)
         setShowModal(true)
-    }, []);
+    }
 
     return (
         <View style={styles.container}>
-            <Image
-                style={styles.image}
-                source={{ uri: user.img }}
-            />
+            {
+                user.img
+                    ? (<Image style={styles.image} source={{ uri: user.img }} />)
+                    : (<DefaultIcon />)
+            }
+
             <View style={styles.secondContainer}>
                 <Text style={styles.txt}>
                     {user.name}
                 </Text>
-                <TouchableOpacity onPress={() => handleGetData(user.id)}>
+                <TouchableOpacity onPress={() => handleOpenModal(user.id)}>
                     <Text style={styles.btnText}>
                         Ver Detalles
                     </Text>
                 </TouchableOpacity>
             </View>
-            <UserDetails
-                visible={showModal}
-                closer={() => setShowModal(false)}
-                user={userData}
-            />
+            {
+                loading ? (<ActivityIndicator />)
+                    : (
+                        <UserDetails
+                            visible={showModal}
+                            closer={() => setShowModal(false)}
+                            user={userData}
+                        />
+                    )
+            }
         </View>
     )
 }

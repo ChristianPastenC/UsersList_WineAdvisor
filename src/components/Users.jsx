@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, ActivityIndicator } from 'react-native'
 import UserCard from './UserCard'
 
 const Users = ({ users = [] }) => {
@@ -10,6 +10,7 @@ const Users = ({ users = [] }) => {
                 <UserCard user={item} />
             )}
             keyExtractor={item => item.id}
+            ListEmptyComponent={<ActivityIndicator />}               
         />
     )
 }
